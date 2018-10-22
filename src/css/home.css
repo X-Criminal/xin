@@ -1,0 +1,79 @@
+.Home .ant-layout-header{
+    background-color: #324057;
+}
+.Home .userName{
+    cursor:pointer;
+}
+.Home .userName{
+    float: right;
+    color: white;
+    position: relative;
+}
+.Home .userName .updateAdminPassword{
+    width: 140px;
+    height: 100px;
+    right: 20px;
+    position: absolute;
+    display: none;
+    top: 50px;
+    box-shadow: 0px 0px 1px 1px #ccc;
+    border-radius: 8px;
+    background-color: white;
+}
+.Home .userName .updateAdminPassword a{
+    display: inline-block;
+    width: 100%;
+    height: 50%;
+    text-align: center;
+    color: #4d5e6c;
+}
+.Home .userName .updateAdminPassword b{
+    display: inline-block;
+    width: 100%;
+    height: 50%;
+    text-align: center;
+    color:#4d5e6c;
+    font-weight: 400;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+}
+.Home .userName .updateAdminPassword button{
+    width: 100%;
+    height: 50%;
+    line-height: 50%;
+    padding: 0;
+    margin: 0;
+}
+.Home .userName:hover .updateAdminPassword{
+    display: block;
+}
+.Home .ant-layout-sider{
+    height:calc(100vh - 64px) ;
+    background-color: #324057;
+}
+.Home .ant-layout-sider ul{
+    background-color: #324057;
+}
+.Home .ant-layout-sider ul li{
+    margin: 0;
+    border: none;
+}
+.Home .ant-layout-sider .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+    background-color: #475669;
+    border: none;
+}
+.Home .ant-layout-sider .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected a{
+    color: #229df8;
+}
+.Home .ant-layout-sider ul a{
+    color: #c1c6cc;
+}
+.Home .ant-layout-sider ul a i{
+    margin-right: 8px;
+}
+.Home .ant-layout-content{
+    padding: 18px;
+    box-sizing: border-box;
+}

@@ -1,0 +1,77 @@
+.updata{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 998;
+    background-color: rgba(0,0,0,0.2)
+}
+.updata .updataBox{
+    width: 510px;
+    position: absolute;
+    left:calc(50% - 255px);
+    top: 20%;
+    background-color: white;
+    border-radius: 8px;
+
+}
+.updata .updataBox h2{
+    font-size: 18px;
+    padding: 0 20px;
+    color: #1d2b5e;
+    background-color: #e5e9f2;
+    border-radius: 8px 8px 0 0;
+    margin: 0;
+}
+.updata .updataBox h2 i{
+    float: right;
+    line-height: 64px;
+}
+.updata .updataTxt{
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        color: rgb(74,89,108);
+        margin-top:40px;
+}
+.updata .updataTxt>div{
+    margin-bottom:15px;
+    float: left;
+    width: 100%;
+}
+.updata .updataTxt>div span{
+        display: inline-block;
+        width: 25%;
+        text-align: right;
+        padding-right:10px;
+}
+.updata .updataTxt div input{
+    width: 60%;
+}
+
+.Home .updata .updataTxt .ant-form-item-control{
+    margin-top: 0 ;
+}
+.updata .updataTxt .ant-form-item .ant-form-item-control-wrapper .ant-form-item-control .ant-form-item-children{
+    text-align: left;
+    width: 100%;
+}   
+.updata .updataTxt>div:last-child{
+    margin-top: 35px;
+    text-align: center;
+}
+.updata .updataTxt div button {
+    width: 120px;
+    height: 33px;
+    margin: 0 15px;
+}
+.updata .updataTxt div button span{
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+}
+.updataTxt .ant-form-explain{
+    text-align: center;
+}
