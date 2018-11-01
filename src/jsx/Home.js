@@ -8,6 +8,8 @@ import HEADER    from "./component/header"
 /**路由组件 */  
 import Admin     from "./component/admin";
 import Agent     from "./component/agent";
+import AgentRole  from "./component/details/detailsRole"
+import AgentHotel from "./component/details/datailsHotel"
 import User      from "./component/user";
 import Equipment from "./component/equipment";
 import Order     from "./component/order";
@@ -46,7 +48,7 @@ const Home = withRouter((props)=>{
         <div className={"Home"}>
         <Layout>
             <Header>
-                <HEADER/>
+                <HEADER pathSnippets={pathSnippets}/>
             </Header>
             <Layout>
                 <Sider breakpoint={Enum}>
@@ -58,7 +60,7 @@ const Home = withRouter((props)=>{
                         theme="dark"
                     >
                             <Menu.Item key=" " >
-                                <Link to=" ">
+                                <Link to="/ ">
                                     <i className={"iconfont icon-user-manage"}></i>
                                     管理员管理
                                 </Link>
@@ -122,6 +124,8 @@ const Home = withRouter((props)=>{
                 <Content>
                     <Switch>
                             <Route  path="/agent"     component={ Agent }/>
+                                <Route  path='/AgentRole/:data'  component={AgentRole}/>
+                                <Route  path='/AgentHotel/:data' component={AgentHotel}/>
                             <Route  path="/user"      component={ User}/>
                             <Route  path="/equipment" component={ Equipment}/>
                             <Route  path="/order"     component={ Order}/>
@@ -139,34 +143,6 @@ const Home = withRouter((props)=>{
     )
 })
 
-// const HEADER = ( props )=>{
-//     return(
-//            <Header>
-//                 <img src={logo1} alt={"logo"}/>
-//                 <div className={"userName"}>
-//                     <i className={"iconfont icon-yonghushezhi"}></i>
-//                     &nbsp;
-//                     范柳原
-//                     &nbsp;
-//                     <Icon type="caret-down" theme="filled" />
-                    
-//                     <Router>
-//                         <div className={"updateAdminPassword"}>
-//                             <Link to={"/header/updateAdminPassword"}>
-//                                 重置密码
-//                             </Link>
-//                             <b >
-//                                 退出登录
-//                             </b>
-//                         </div>
-//                         <Switch>
-//                             <Route path="/header/updateAdminPassword" component={ }/>
-//                         </Switch>
-//                     </Router>
-//                 </div>
-//             </Header>
-//     )
-// }
 
 export default App;
 

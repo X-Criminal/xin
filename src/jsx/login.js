@@ -47,7 +47,7 @@ class app extends Component{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
           if (!err) {
-              axios.post(url+"/SmartPillow/web/admin/adminLogin",values)
+              axios.post(url+"SmartPillow/web/admin/adminLogin",values)
                // axios.post("http://172.16.10.16:8086/securitylock/web/admin/Login",values)
                      .then((res)=>{
                          if(res.data.code===1000){
@@ -75,12 +75,12 @@ class app extends Component{
             };
             this.props.form.validateFields((err,values)=>{
                  if(!err){
-                     console.log(values)
                      data.password=values.Password;
                          data.code=values.code;
                     data.telephone=values.Telephone;
                         this.Postreset(data,()=>{
                             /**发送后回调 */
+                            console.log(data)
                         })
                  }else{
                     console.log(err)   
@@ -90,7 +90,7 @@ class app extends Component{
       Postreset=(data,cb)=>{
             axios.post(url+"SmartPillow/web/admin/resetAdminPassword",data)
                  .then((res)=>{
-                            console.log(res)
+                            cb&&cb(res)
                        })
       }
 

@@ -6,8 +6,6 @@ import cookie                from "react-cookies";
 import './App.css';
 import "antd/dist/antd.css";
 
-console.log(cookie)
-
 class App extends Component {
   constructor(props){
     super(props)

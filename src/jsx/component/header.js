@@ -1,5 +1,7 @@
 import React   from "react";
-import logo1           from "../../img/logo1.png"
+import cookie  from "react-cookies";
+//import axios   from "axios"
+import logo1           from "../../img/logo1.png";
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import {Icon,Input,Button,Form}        from "antd";
 import "../../css/header.css"
@@ -10,6 +12,14 @@ export default class App extends React.Component{
         this.state={
 
         }
+    }
+    Cancellation=( )=>{
+        cookie.remove("islogin")
+        window.location.reload()
+        // axios.get(sessionStorage.getItem("url")+"/SmartPillow//web/admin//adminCancellation")
+        //      .then(()=>{
+        //         window.location.reload()
+        //      })
     }
     render(){
         return(
@@ -23,18 +33,19 @@ export default class App extends React.Component{
                         &nbsp;
                         <Icon type="caret-down" theme="filled" />
                             <div className={"updateAdminPassword"}>
-                                <Link to={"/header/updateAdminPassword"}>
+                                <Link to={"/"+this.props.pathSnippets+"/updateAdminPassword"}>
                                     重置密码
                                 </Link>
-                                <b >
-                                    退出登录
+                                <b onClick={this.Cancellation}>
+                                    <Link to={"/ "}>
+                                        退出登录
+                                    </Link>
                                 </b>
                             </div>
                     </div>
                     <Switch>
-                                <Route path="/header/updateAdminPassword" component={Updata}/>
-                                <Route path="/header/updateAdminPassword" render={()=>null}/>
-                            </Switch>
+                        <Route path={"/"+this.props.pathSnippets[0]+"/updateAdminPassword"} render={( )=> <Updata pathSnippets={this.props.pathSnippets[0]}/>}/>
+                    </Switch>
                 </div>
             </Router>
         )
@@ -71,7 +82,7 @@ class updata extends React.Component{
         return(
             <div className={"updata"}>
                 <div className={"updataBox"}>
-                    <h2>修改密码  <Link to={"/header"}><Icon type={"close"} /></Link></h2>
+                    <h2>修改密码  <Link to={"/"+this.props.pathSnippets}><Icon type={"close"} /></Link></h2>
                     <Form className={" clear-fix"}>
                         <div className={"updataTxt"}>
                             <div>
@@ -106,7 +117,7 @@ class updata extends React.Component{
                             </FormItem>
                             <div>
                                 <Button>
-                                    <Link to={"/header"}>
+                                    <Link to={"/"+this.props.pathSnippets}>
                                         取消
                                     </Link>
                                 </Button>
