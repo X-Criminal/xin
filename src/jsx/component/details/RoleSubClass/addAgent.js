@@ -23,7 +23,7 @@ export default class App extends React.Component {
             <div className={"addAdmin"} style={{"float":"right"}}>
                 <Link to={`/AgentRole/addAdmin/{"idAdmin":"${_data}","type":"2"}`}>
                     <Button type="primary">
-                        添加管理员
+                        添加代理商
                     </Button>
                 </Link>
                 <Switch>

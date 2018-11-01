@@ -61,7 +61,7 @@ export default class App extends Component{
         this.setState({
             _idHotel:data
         })
-        this._init({idHotel:data})
+        this._init({idHotel:data+""})
     }
     _init=( data )=>{
         let _data={
@@ -164,7 +164,7 @@ export default class App extends Component{
                     <Switch>
                         <Route path={router+"/UpdateAdmin"} render={()=> <UpdateAdmin upData={this.state.upData} enData={this.enData} inRouter={inRouter}/>}/>
                         <Route path={router+"/DeleteAdmin"} render={()=> <Dele DeleBox={this.DeleBox}/>}/>
-                        <Route path={router+"/getHotelDetailList"} render={()=> <HotelDeta idHotel={this.state._idHotel}/>}/>
+                        <Route path={router+"/getHotelDetailList"} render={()=> <HotelDeta idHotel={this.state._idHotel} url={"SmartPillow//web/roomdetails/importRoomDetails"}/>}/>
                     </Switch>
             </div>
         )

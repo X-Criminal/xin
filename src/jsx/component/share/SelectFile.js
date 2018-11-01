@@ -3,18 +3,26 @@ import { Upload, Button, Icon, message } from 'antd';
 import reqwest from 'reqwest';
 
 
-
+let url;
 class Demo extends React.Component {
   state = {
     fileList: [],
     uploading: false,
+  }
+  componentWillMount=()=>{
+     url  = sessionStorage.getItem("url")
   }
 
   handleUpload = () => {
     const { fileList } = this.state;
     const formData = new FormData();
     fileList.forEach((file) => {
-      formData.append('files[]', file);
+      if(this.props.idHotel){
+        formData.append("idHotel",this.props.idHotel)
+      }
+      console.log(this.props.idHotel)
+      formData.append('file', file);
+      console.log(formData)
     });
 
     this.setState({
@@ -23,16 +31,16 @@ class Demo extends React.Component {
 
     // You can use any AJAX library you like
     reqwest({
-      url: '//jsonplaceholder.typicode.com/posts/',
+      url:url+this.props.url||"",
       method: 'post',
       processData: false,
       data: formData,
-      success: () => {
+      success: (res) => {
         this.setState({
           fileList: [],
           uploading: false,
         });
-        message.success('上传成功！');
+        message.success(res.message);
       },
       error: () => {
         this.setState({
@@ -45,9 +53,8 @@ class Demo extends React.Component {
 
   render() {
     const { uploading } = this.state;
-    console.log(uploading)
     const props = {
-      action: '//jsonplaceholder.typicode.com/posts/',
+      action:url+this.props.url||"",
       onRemove: (file) => {
         this.setState(({ fileList }) => {
           const index = fileList.indexOf(file);

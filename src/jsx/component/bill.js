@@ -10,8 +10,9 @@ export default class App extends Component{
 
         render(){
             return(
-                <div className={"bill"}>
-                        账单
+                <div className={"admin bill"}>
+                       <h3>提现账单</h3>
+                       
                 </div>
             )
         }

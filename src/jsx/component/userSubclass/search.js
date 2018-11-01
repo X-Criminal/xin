@@ -39,6 +39,7 @@ export default class App extends Component{
                     <Button className={"Adminbtn"} type="primary" loading={this.state.loading} onClick={this.search}>
                         查询
                     </Button>
+                    {this.props.postData?this.props.postData:null}
                 </div>
             )
         }
