@@ -2,7 +2,6 @@ import React,{Component} from "react";
 import {Input,Button,Radio} from "antd";
 import {Link}               from "react-router-dom";
 import Region         from "../../share/region";
-import AddAdmin       from "./addAgent" ;
 const RadioGroup = Radio.Group;
 export default class App extends Component{
         constructor(props){
@@ -61,7 +60,6 @@ export default class App extends Component{
                     <Button className={"Adminbtn"} type="primary" loading={this.state.loading} onClick={this.search}>
                         查询
                     </Button>
-                    <AddAdmin addAdmin={this.props.addAdmin} idAdmin={_data.idAdmin} />
                 </div>
             )
         }
