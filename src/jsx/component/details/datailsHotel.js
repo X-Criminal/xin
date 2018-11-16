@@ -12,7 +12,7 @@ export default class App extends Component{
             condition:"",
              keywords:"",
                  page:1,
-                 idAdmin:""
+              idAdmin:""
         }
     }
     componentWillMount(){
@@ -96,7 +96,6 @@ export default class App extends Component{
    }
    /**修改 */
    upData=(data,cb)=>{
-        console.log(data)
         axios.post(url+"/SmartPillow//web/agent/updateAdminHotelRole",data)
              .then((res)=>{
                  console.log(res)

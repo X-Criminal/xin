@@ -48,66 +48,43 @@ export default class App extends Component{
     render(){
         return(
             <div className={"AdminLis"}>
-                    <Table dataSource={this.props.admins} pagination={false} rowKey={"idAdmin"}>
+                    <Table dataSource={this.props.admins} pagination={false} rowKey={"idEquipment"}>
                         <Column
-                        title="账号"
-                        dataIndex="telephone"
-                        key="telephone"
+                        title="设备列表"
+                        dataIndex="mac"
+                        key="mac"
                         />
                         <Column
-                        title="密码"
-                        dataIndex="password"
-                        key="password"
+                        title="设备名"
+                        dataIndex="nickname"
+                        key="nickname"
                         />
                         <Column
-                        title="姓名"
-                        dataIndex="name"
-                        key="name"
+                        title="所属代理"
+                        dataIndex="hotels.admin.name"
+                        key="hotels.admin.name"
+                        // render={(txt)=>{
+                        //         return(
+                        //             <span>
+                        //                 {txt?txt.name:""}
+                        //             </span>
+                        //         )
+                        // }}
                         />
                         <Column
-                        title="年龄"
-                        dataIndex="age"
-                        key="age"
+                        title="所属酒店 "
+                        dataIndex="hotels.hotelname"
+                        key="hotels.hotelname"
                         />
                         <Column
-                        title="身份证"
-                        dataIndex="identityCard"
-                        key="identityCard"
+                        title="楼层号"
+                        dataIndex="roDetails.floornumber"
+                        key="roDetails.floornumber"
                         />
                         <Column
-                        title="角色"
-                        dataIndex="adminRole"
-                        key="adminRole"
-                        render={(res)=>{
-                            return(
-                                res.map((item,index)=><span key={index}>{item.roleName}</span>)
-                            )
-                        }}
-                        />
-                        <Column
-                        title="地区"
-                        dataIndex="area"
-                        key="area"
-                        />
-                        <Column
-                        title="操作"
-                        key="idAdmin"
-                        render={(text) => {
-                            return(
-                                <div>
-                                    <Button onClick={this.onUpdateAdmin.bind(this,text)}>
-                                        <Link to={"/agent/UpdateAdmin"}>
-                                            编辑
-                                        </Link>
-                                    </Button>
-                                    <Button onClick={this.onDeleteAdmin.bind(this,text.idAdmin)} className={"deleBtn"}>
-                                        <Link to={"/agent/DeleteAdmin"} >
-                                            删除
-                                        </Link>
-                                    </Button>
-                                </div>
-                            )
-                        }}
+                        title="房间号"
+                        dataIndex="roDetails.roomnumber"
+                        key="roDetails.roomnumber"
                         />
                 </Table>
                     <div  className={"page"}>

@@ -63,12 +63,22 @@ export default class App extends Component{
         this.init({page:e})
     }
         render(){
-            return(
-                <div className={"user admin"}>
-                       <h3>用户管理</h3>
-                       <Search onSearch={this.onSearch}/>
-                       <UserLis strip={this.state.strip} emtPage={this.emtPage} admins={this.state.admins}/>
-                </div>
-            )
+            if(sessionStorage.getItem("adminAuths").indexOf("用户管理")>-1){
+                return(
+                    <div className={"user admin"}>
+                           <h3>用户管理</h3>
+                           <Search onSearch={this.onSearch}/>
+                           <UserLis strip={this.state.strip} emtPage={this.emtPage} admins={this.state.admins}/>
+                    </div>
+                )
+            }else{
+                return(
+                    <div className={"user admin"}>
+                           <h3>用户管理</h3>
+                           <p>无权限</p>
+                    </div>
+                )
+            }
+            
         }
 }

@@ -81,10 +81,8 @@ export default class App extends Component{
                         render={(text) => {
                             return(
                                 <div>
-                                    <Button onClick={this.onUpdateAdmin.bind(this,text.idAdmin)}>
-                                            同意
-                                    </Button>
-                                    <Button onClick={this.onDeleteAdmin.bind(this,text)}>
+                                    {text.checkadmin===1?<Button onClick={this.onUpdateAdmin.bind(this,text.idAdmin)}>同意</Button>:<span>已通过</span> }
+                                    <Button onClick={this.onDeleteAdmin.bind(this,text.idAdmin)}>
                                         <Link to={"/reviewed/DeleteAdmin"} className={"deleBtn"}>
                                             删除
                                         </Link>

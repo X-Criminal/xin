@@ -28,7 +28,8 @@ export default class App extends Component{
     /**初始化 */
     init=(data,cb)=>{
         let _data={
-                idAdmin:this.state.TypeAndId.idAdmin,
+               // idAdmin:this.state.TypeAndId.idAdmin,
+               idAdmin:"",
                keywords:this.state.keywords,
               condition:this.state.condition,
              numberPage:8,

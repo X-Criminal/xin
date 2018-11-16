@@ -21,13 +21,13 @@ export default class App extends React.Component {
     render(){
         return(
             <div className={"addAdmin"} style={{"float":"right"}}>
-                <Link to={"/ /addAdmin"}>
+                <Link to={"/admin/addAdmin"}>
                     <Button type="primary">
                         添加管理员
                     </Button>
                 </Link>
                 <Switch>
-                    <Route  path="/ /addAdmin"     render={ ()=> <AddAmin enData={this.enData}/>}/>
+                    <Route  path="/admin/addAdmin" render={ ()=> <AddAmin enData={this.enData}/>}/>
                 </Switch>
             </div>
         )
@@ -101,7 +101,7 @@ class AddAmin extends React.Component{
             this.setState({
                 loading:false
             })
-            window.location.href="/#/ "
+            window.history.back(-1)
         })
     }
     onfocus=( )=>{
@@ -114,7 +114,7 @@ class AddAmin extends React.Component{
             return(
                 <div className={"addAdminBox"}>
                         <div>
-                              <h3>添加管理员 <Link to={"/ "}><Icon type={"close"}/></Link></h3>
+                              <h3>添加管理员 <Link to={"/admin"}><Icon type={"close"}/></Link></h3>
                               <div className={"addAdminData"}>
                                    <div key={1}>
                                        <span>
@@ -180,7 +180,7 @@ class AddAmin extends React.Component{
                                    </div>
                                    <div className={"adminDataBtn"} key={10}>
                                         <Button>
-                                            <Link to={"/ "}>
+                                            <Link to={"/admin"}>
                                                 取消
                                             </Link>
                                         </Button>

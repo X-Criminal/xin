@@ -14,21 +14,21 @@ class App extends Component {
     }
   }
   componentWillMount(){
-    sessionStorage.setItem("url","https://www.znx158.com/")
+    sessionStorage.setItem("url","https://www.znx158.com/");
+      if(cookie.load("userData")){
+        this.setState({
+          islogin:true,
+        })
+    }else{
+      this.setState({
+        islogin:false,
+      })
+    }
   }
   componentDidMount(){
-      if(cookie.load("islogin")){
-          this.setState({
-            islogin:true,
-          })
-      }else{
-        this.setState({
-          islogin:false,
-        })
-      }
+     
   }
   login=( )=>{
-    cookie.save("islogin",true)
     this.setState({
         islogin:true,
     })

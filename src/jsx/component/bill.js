@@ -95,38 +95,47 @@ export default class App extends Component{
         })
     }
         render(){
-            return(
-                <div className={"admin bill"}>
-                       <h3>提现账单</h3>
-                       <div className={"adminSearch clear-fix"}>
-                            <span>搜索：</span>
-                            <Input className={"keyWord"}  onChange={this.onKeyword} placeholder={"输入关键字"}/>
-                            <span style={{margin:"0 8px"}}>起</span>
-                            <DatePicker locale={locale} onChange={this.onStatrtTime}/>
-                            <span style={{margin:"0 8px"}}>止</span>
-                            <DatePicker locale={locale} onChange={this.onEndTime}/>
-                            <Button className={"Adminbtn"} type="primary" loading={this.state.loading} onClick={this.search}>
-                                查询
-                            </Button>
-                       </div>
-                       <div className={"AdminLis"}>
-                            <Table dataSource={this.state.adminWithdrawrecords}
-                                rowKey="createtime"
-                                pagination={false}
-                                columns={[
-                                    {title:"时间",key:"createtime",render:(txt)=>{return (<span>{moment(parseInt(txt.createtime)).format('YYYY-MM-DD HH:mm:ss')}</span>)}},
-                                    {title:"订单号",dataIndex:"withdrawnumber",key:"withdrawnumber"},
-                                    {title:"提现人",dataIndex:"admin.name",key:"admin.name"},
-                                    {title:"提现平台",key:"accounttype", render:(txt)=>{return (<span>{txt.accounttype===1?"支付宝":txt.accounttype===2?"微信":"-"}</span>)}},
-                                    {title:"提现金额",dataIndex:"withdrawmoney",key:"withdrawmoney"}
-                                ]
-                            }/>
-                            <div className={"page"}>
-                                <span>共{this.state.strip}条</span>
-                                <Pagination defaultPageSize={8} total={this.state.strip} onChange={this.onPage}/>
-                            </div>
-                       </div>
-                </div>
-            )
+            if(sessionStorage.getItem("adminAuths").indexOf("支付账单")>-1){
+                return(
+                    <div className={"admin bill"}>
+                           <h3>提现账单</h3>
+                           <div className={"adminSearch clear-fix"}>
+                                <span>搜索：</span>
+                                <Input className={"keyWord"}  onChange={this.onKeyword} placeholder={"输入关键字"}/>
+                                <span style={{margin:"0 8px"}}>起</span>
+                                <DatePicker locale={locale} onChange={this.onStatrtTime}/>
+                                <span style={{margin:"0 8px"}}>止</span>
+                                <DatePicker locale={locale} onChange={this.onEndTime}/>
+                                <Button className={"Adminbtn"} type="primary" loading={this.state.loading} onClick={this.search}>
+                                    查询
+                                </Button>
+                           </div>
+                           <div className={"AdminLis"}>
+                                <Table dataSource={this.state.adminWithdrawrecords}
+                                    rowKey="createtime"
+                                    pagination={false}
+                                    columns={[
+                                        {title:"时间",key:"createtime",render:(txt)=>{return (<span>{moment(parseInt(txt.createtime)).format('YYYY-MM-DD HH:mm:ss')}</span>)}},
+                                        {title:"订单号",dataIndex:"withdrawnumber",key:"withdrawnumber"},
+                                        {title:"提现人",dataIndex:"admin.name",key:"admin.name"},
+                                        {title:"提现平台",key:"accounttype", render:(txt)=>{return (<span>{txt.accounttype===1?"支付宝":txt.accounttype===2?"微信":"-"}</span>)}},
+                                        {title:"提现金额",dataIndex:"withdrawmoney",key:"withdrawmoney"}
+                                    ]
+                                }/>
+                                <div className={"page"}>
+                                    <span>共{this.state.strip}条</span>
+                                    <Pagination defaultPageSize={8} total={this.state.strip} onChange={this.onPage}/>
+                                </div>
+                           </div>
+                    </div>
+                )
+            }else{
+                return(
+                    <div className={"admin bill"}>
+                        <h3>提现账单</h3>
+                        <p>无权限</p>
+                    </div>
+                )
+            }
         }
 }

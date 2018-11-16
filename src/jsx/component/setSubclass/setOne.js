@@ -124,7 +124,6 @@ class Updata extends Component{
          _data= _data.replace(/报修管理/g,8);
          _data= _data.replace(/支付账单/g,9);
          _data= _data.replace(/设置/g,10);
-
          let array = Array.from(new Set( _data.split(",")));
          return array;
     }

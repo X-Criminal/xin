@@ -1,5 +1,6 @@
 import React ,{Component} from "react";
 import axios              from "axios";
+import {message}          from "antd";
 import Search             from "./userSubclass/search";
 import Reviewed           from "./reviewedSubclass/adminLis";
 
@@ -62,12 +63,26 @@ export default class App extends Component{
     upData=(idAdmin)=>{
          axios.post(url+"SmartPillow/web/agent/updateCheckadmin",{"idAdmin":idAdmin})
               .then((res)=>{
-                  console.log(res)
+                  if(res.data.code===1000){
+                        message.success(res.data.message)
+                        this.init( )
+                    }else{
+                      message.error(res.data.message)
+                  }
               })
     }
     /**删除审核 */
     deleData=( data, cb )=>{
-        console.log(data)
+        axios.post(url+"/SmartPillow//web/agent/deleteCheckadmin",{"idAdmin":data})
+             .then((res)=>{
+                if(res.data.code===1000){
+                        message.success(res.data.message)
+                        this.init( )
+                }else{  
+                        message.error(res.data.message)
+                }
+                cb&&cb( )
+             })
         cb&&cb( )
     }
     /**翻页*/
@@ -79,6 +94,7 @@ export default class App extends Component{
     }
 
     render(){
+        if(sessionStorage.getItem("adminAuths").indexOf("审核通知")>-1){
             return(
                 <div className={"reviewed admin"}>
                         <h3>审核通知</h3>
@@ -86,5 +102,14 @@ export default class App extends Component{
                         <Reviewed strip={this.state.strip} admins={this.state.admins} upData={this.upData} deleData={this.deleData} emtPage={this.emtPage}/>
                 </div>
             )
+        }else{
+            return(
+                <div className={"reviewed admin"}>
+                        <h3>审核通知</h3>
+                        <p>无权限</p>
+                </div>
+            )
         }
+            
+     }
 }

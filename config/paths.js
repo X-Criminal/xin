@@ -42,8 +42,8 @@ function getServedPath(appPackageJson) {
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  //appBuild: resolveApp('build'),
-  appBuild:"F:\\svn\\智能枕头\\4.移动PC及WEB端\\04 Web\\tags",
+  appBuild: resolveApp('build'),
+  //appBuild:"F:\\svn\\智能枕头\\4.移动PC及WEB端\\04 Web\\tags",
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),

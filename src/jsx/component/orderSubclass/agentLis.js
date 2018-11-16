@@ -1,6 +1,6 @@
 import React,{Component}                from "react"
-import {Table,Pagination}        from "antd"
-
+import {Table,Pagination,Button}        from "antd"
+import moment from "moment";
 
 const {Column} =Table
 
@@ -8,18 +8,38 @@ export default class App extends Component{
     constructor(props){
         super(props)
         this.state={
+            loading: false,
             upData:[],
             adminId:"",
+            _deleteWxOrderList:[]
         }
     }
     /**翻页 */
     onPage=(e)=>{
         this.props.emtPage(e)
     }
+    deleData=( )=>{
+        let arr=[]
+        let data = this.state._deleteWxOrderList
+        this.setState({
+            loading:!this.state.loading
+        })
+        for(let i=0, inx = data.length;i<inx;i++){
+            arr.push({"idWxorder":+data[i]})
+        }
+        this.props.deleteWxOrderList(arr,()=>{
+            this.setState({
+                loading:!this.state.loading,
+                _deleteWxOrderList:[]
+            })
+        })
+    }
 
     rowSelection={
-        onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        onChange: (selectedRowKeys) => {
+                this.setState({
+                    _deleteWxOrderList:selectedRowKeys
+                })
           },
           getCheckboxProps: record => ({
             disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -30,7 +50,7 @@ export default class App extends Component{
     render(){
         return(
             <div className={"AdminLis"}>
-                    <Table dataSource={this.props.admins} pagination={false} rowKey={"ordernumber"} rowSelection={this.rowSelection} >
+                    <Table dataSource={this.props.admins} pagination={false} rowKey={"idWxorder"} rowSelection={this.rowSelection} >
                         <Column
                         title="订单号"
                         dataIndex="ordernumber"
@@ -52,8 +72,11 @@ export default class App extends Component{
                         />
                          <Column
                         title="订单时间"
-                        dataIndex="createtime"
+                        //dataIndex="createtime"
                         key="createtime"
+                        render={(res)=>{
+                            return  (<span>{moment(parseInt(res.createtime)).format('YYYY-MM-DD HH:mm:ss')}</span>)
+                        }}
                         />
                         <Column
                         title="设备编号"
@@ -93,8 +116,15 @@ export default class App extends Component{
                     <div  className={"page"}>
                         <span>共{this.props.strip}条</span>
                         <Pagination defaultCurrent={1} total={this.props.strip} defaultPageSize={8} onChange={this.onPage}/>
+                        {this.state._deleteWxOrderList.length>0?<Button loading={this.state.loading} onClick={this.deleData} style={DeleBtn}>删除</Button>:null}
                     </div>
             </div>
         )
     }
+}
+
+let DeleBtn={
+    float:"right",
+    background:"#f5222d",
+    color:"#fff"
 }

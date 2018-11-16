@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import axios             from "axios";
 import Search            from "./adminSubclass/search";
 import AdminLis          from "./adminSubclass/adminLis";
+import {message}         from "antd";
 import "../../css/admin.less"
 let url;
 export default class App extends Component{
@@ -52,6 +53,9 @@ export default class App extends Component{
                     })
                   }
                   cb&&cb( )
+              })
+              .catch((res)=>{
+                message.error("网络错误请稍后再试~~~~")
               })
     }
     /**添加 */
@@ -106,13 +110,21 @@ export default class App extends Component{
        
  
         render(){
-            return(
-                <div className="admin">
+            if(sessionStorage.getItem("adminAuths").indexOf("管理员管理")>-1){
+                return(
+                    <div className="admin">
+                        <h3>管理员管理</h3>
+                        <Search addAdmin={this.addAdmin} onSearch={this.onSearch}/>
+                        <AdminLis strip={this.state.strip} admins={this.state.admins} upData={this.upData} deleData={this.deleData} emtPage={this.emtPage}/>
+                    </div>
+                )
+            }else{
+                return(
+                    <div className="admin">
                     <h3>管理员管理</h3>
-                    <Search addAdmin={this.addAdmin} onSearch={this.onSearch}/>
-                    <AdminLis strip={this.state.strip} admins={this.state.admins} upData={this.upData} deleData={this.deleData} emtPage={this.emtPage}/>
+                    <p>无权限.......</p>
                 </div>
-            )
+                )
+            }
         }
-
 }

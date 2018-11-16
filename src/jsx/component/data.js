@@ -1,6 +1,6 @@
 import React ,{Component}           from "react";
 import Search                       from "./userSubclass/search";
-import { Radio ,DatePicker,Icon }   from 'antd';
+import { Radio ,DatePicker,Icon,message }   from 'antd';
 import axios                        from "axios"
 import moment from 'moment';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
@@ -10,8 +10,17 @@ import echarts from "echarts"
 let upData = false,myChart,url;
 
 const dateFormat = 'YYYY/MM/DD';
+
+
+let getDay=(type)=>{
+    let _date = new Date(type).getTime();
+    let  day  =  moment(_date).format('d')
+        _date = _date-(day==="0"?6:day-1)*(24*60*60*1000)
+         return moment(_date).format('YYYY-MM-DD');
+}
 let initDate   = new Date( );
-let inDate     = initDate.getFullYear()+"-"+(initDate.getMonth()+1)+"-"+initDate.getDate()
+let _getDay     = getDay(initDate);
+let inDate    = moment(initDate).format('YYYY-MM-DD');
 export default class App extends Component{
     constructor(props){
         super(props)
@@ -19,15 +28,17 @@ export default class App extends Component{
              date:[],
              amount:[],
              typeData:1,
+             getDay:"",
              inDate:"",
-             keywords:""
+             keywords:"",
+             totalMoney:""
         }
     }
     onSearch=( e , cb)=>{
         this.setState({
             keywords:e.keywords
         })
-        console.log(e);
+        this.init({keywords:e.keywords})
         cb&&cb()
     }
     /**选择年月日 */
@@ -35,29 +46,40 @@ export default class App extends Component{
         this.setState({
             typeData:type.target.value
         })
-    this.init({type:type.target.value})
+        if(type.target.value===1){
+            this.init({type:type.target.value,startTime:this.state.getDay})
+        }else{
+            this.init({type:type.target.value,startTime:this.state.inDate})
+        }
     }
     /**选择日期 */
     onDate=( type , date)=>{
         this.setState({
-            inDate:date
+            inDate:date,
+            getDay:getDay(type._d),
         })
-
+        if(this.state.typeData===1){
+            this.init({startTime:getDay(type._d)})
+        }else{
+            this.init({startTime:date})
+        }
     }
     componentWillMount(){
         url = sessionStorage.getItem("url");
         this.setState({
-            inDate:inDate
+            getDay:_getDay,
+            inDate:inDate,
         })
     }
     /**初始化 */
     componentDidMount(){
+        upData=false;
         this.init()
     }
     /**初始化 */
-    init( data ){
+    init( data,cb ){
         let _data={
-            startTime:this.state.inDate,
+            startTime:this.state.getDay,
              keywords:this.state.keywords,
                  type:this.state.typeData
         }
@@ -66,54 +88,88 @@ export default class App extends Component{
                 _data[k] = data[k]
             }
         }
-        axios.post(url+"/SmartPillow/web/wxorder/wxOrderStatistics",_data)
+        axios.post(url+"SmartPillow/web/wxorder/wxOrderStatistics",_data)
              .then((res)=>{
-                if(upData){
-                    UpData(this.state.date,this.state.amount,this.state.typeData )
-                }else{
-                    echart(this.state.date,this.state.amount,this.state.typeData)
-                }
+                 if(res.data.code===1000){
+                     this.setState({
+                        totalMoney:res.data.data.totalMoney
+                     })
+                    if(upData){
+                        UpData(res.data.data.wxorder,this.state.typeData )
+                    }else{
+                        echart(res.data.data.wxorder,this.state.typeData)
+                    }
+                    message.success(res.data.message)
+                 }else{
+                    message.error(res.data.message)
+                 }
+                 cb&&cb()
              })
     }
 
         render(){
-            return(
-                <div className={"Data admin"}>
-                    <h3>
-                        营销报销
-                    </h3>    
-                    <Search onSearch={this.onSearch} placeholder={"输入酒店，代理商名称"}/>
-                    <div className={"Datanav"}>
-                        <Radio.Group buttonStyle="solid" onChange={this.onDateType} defaultValue={this.state.typeData}>
-                            <Radio.Button value={1}>周</Radio.Button>
-                            <Radio.Button value={2}>月</Radio.Button>
-                            <Radio.Button value={3}>年</Radio.Button>
-                        </Radio.Group>
+            if(sessionStorage.getItem("adminAuths").indexOf("营销报表")>-1){
+                return(
+                    <div className={"Data admin"}>
+                        <h3>
+                            营销报表
+                        </h3>    
+                        <Search onSearch={this.onSearch} placeholder={"输入酒店，代理商名称"}/>
+                        <div className={"Datanav"}>
+                            <Radio.Group buttonStyle="solid" onChange={this.onDateType} defaultValue={this.state.typeData}>
+                                <Radio.Button value={1}>周</Radio.Button>
+                                <Radio.Button value={2}>月</Radio.Button>
+                                <Radio.Button value={4}>年</Radio.Button>
+                            </Radio.Group>
+                        </div>
+                        <div className={"DateBody"}>
+                            <Icon type={"left"}/>
+                            <DatePicker onChange={this.onDate} allowClear={false} locale={locale}  defaultValue={moment(initDate, dateFormat)}/>
+                            <Icon type={"right"}/>
+                        </div>
+                        <div className={"echarts1"} style={{"width":"80%","height":"400px"}}></div>
+                        <p className={"totalMoney"}>销售总额(元):{this.state.totalMoney}</p>
                     </div>
-                    <div className={"DateBody"}>
-                        <Icon type={"left"}/>
-                        <DatePicker onChange={this.onDate} allowClear={false} locale={locale}  defaultValue={moment(initDate, dateFormat)}/>
-                        <Icon type={"right"}/>
+                )
+            }else{
+                return(
+                    <div className={"Data admin"}>
+                        <h3>
+                            营销报表
+                        </h3>
+                        <p>无权限</p>
                     </div>
-                    <div className={"echarts1"} style={{"width":"80%","height":"400px"}}></div>
-                    <p className={"totalMoney"}>销售总额(元):</p>
-                </div>
-            )
+                    )
+            }
         }
 }
 
+let inData=(data,dataType)=>{
+    // if(dataType===1){
+    //     return moment(parseInt(data)).format('YYYY-MM-DD')
+    // }
+    switch(dataType){
+        case  1:
+            return moment(parseInt(data)).format('MM-DD');
+        case  2:
+            return moment(parseInt(data)).format('MM-DD');
+        default:
+            return moment(parseInt(data)).format('YYYY-MM');
+    }
+    
+}
 
 
 
 let sEries=[0],
     xAxis =[0];
-function echart( _sEries, _xAxis,type){
-    if(_sEries.length>0&&_xAxis){
+function echart( _sEries,type){
+    if(_sEries.length>0){
         myChart = echarts.init(document.querySelector('.echarts1')); 
         iftype(type)
         for(let i = 0,idx = _sEries.length;i<idx;i++){
-            sEries[i]=_sEries[i]
-            xAxis[i] =_xAxis[i]
+            sEries[i]=inData(_sEries[i].date,type)
+            xAxis[i] =_sEries[i].money
         }
         myChart.setOption({
             legend:{
@@ -138,11 +194,11 @@ function echart( _sEries, _xAxis,type){
     }
 }
 
-function UpData(_sEries,_xAxis,type){
+function UpData(_sEries,type){
      iftype(type)
         for(let i = 0,idx = _sEries.length;i<idx;i++){
-            sEries[i]=_sEries[i]
-            xAxis[i] =_xAxis[i]
+            sEries[i]=inData(_sEries[i].date,type)
+            xAxis[i] =_sEries[i].money
         }
         let option = myChart.getOption();
         option.xAxis[0].data=sEries;
@@ -161,7 +217,7 @@ function UpData(_sEries,_xAxis,type){
             sEries.push("-");
             xAxis.push("0")
          }
-    }else if(type===3){
+    }else if(type===4){
         for(let i = 0;i<12;i++){
             sEries.push("-");
             xAxis.push("0")

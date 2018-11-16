@@ -31,12 +31,12 @@ export default class App extends Component{
                 })
             }
         }
-        axios.post(url+"SmartPillow/web/admin/getAdminAndRole",_data)
+        axios.post(url+"/SmartPillow/web/agent/queryEquipmentByHotel",_data)
               .then((res)=>{
                   if(res.data.code===1000&&res.data.data){
                         this.setState({
                             strip:res.data.data.strip,
-                           admins:res.data.data.admins
+                           admins:res.data.data.equipments
                         })
                   }else{
                     this.setState({
@@ -64,13 +64,22 @@ export default class App extends Component{
         this.init({page:e})
     }
         render(){
-            return(
-                <div className={"equipment admin"}>
-                        <h3>设备管理</h3>
-                        <Search onSearch={this.onSearch} 
-                                postData={<Select url={"SmartPillow/web/equipment/importEqupment"}/>}/>
-                        <Equipment strip={this.state.strip} emtPage={this.emtPage} admins={this.state.admins}/>
-                </div>
-            )
+            if(sessionStorage.getItem("adminAuths").indexOf("设备管理")>-1){
+                return(
+                    <div className={"equipment admin"}>
+                            <h3>设备管理</h3>
+                            <Search onSearch={this.onSearch} 
+                                    postData={<Select url={"SmartPillow/web/equipment/importEqupment"}/>}/>
+                            <Equipment strip={this.state.strip} emtPage={this.emtPage} admins={this.state.admins}/>
+                    </div>
+                )
+            }else{
+                return(
+                    <div className={"equipment admin"}>
+                            <h3>设备管理</h3>
+                            <p>无权限</p>
+                    </div>
+                )
         }
+    }
 }
