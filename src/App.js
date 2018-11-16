@@ -5,6 +5,7 @@ import cookie                from "react-cookies";
 
 import './App.css';
 import "antd/dist/antd.css";
+import "./css/_home.css"
 
 class App extends Component {
   constructor(props){

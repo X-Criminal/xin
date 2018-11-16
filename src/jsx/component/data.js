@@ -7,6 +7,7 @@ import locale from 'antd/lib/date-picker/locale/zh_CN';
 import 'moment/locale/zh-cn';
 
 import echarts from "echarts"
+import "../../css/DataStyle.css"
 let upData = false,myChart,url;
 
 const dateFormat = 'YYYY/MM/DD';

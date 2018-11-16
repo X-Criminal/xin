@@ -1,0 +1,160 @@
+.admin {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .admin h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2d3d;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #c0ccda;
+  }
+  .admin .adminSearch > span,
+  .admin .adminSearch > div,
+  .admin .adminSearch > input {
+    float: left;
+    line-height: 36px;
+  }
+  .admin .adminSearch .getroleName {
+    width: 150px;
+    margin-right: 15px;
+    margin-top: 1px;
+  }
+  .admin .adminSearch .region {
+    margin-right: 15px;
+  }
+  .admin .adminSearch .keyWord {
+    width: 190px;
+    margin-left: 5px;
+    height: 30px;
+    box-sizing: border-box;
+    line-height: 30px;
+    margin-top: 2px;
+  }
+  .admin .adminSearch .Adminbtn {
+    margin-left: 20px;
+    height: 29px;
+    margin-top: 3px;
+  }
+  .admin .addAdminBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 998;
+  }
+  .admin .addAdminBox > div {
+    position: absolute;
+    width: 510px;
+    top: 20%;
+    left: calc(50% - 255px);
+    background-color: white;
+    box-sizing: border-box;
+    color: #1f2d3d;
+    border-radius: 5px;
+  }
+  .admin .addAdminBox > div h3 {
+    padding: 8px;
+    position: relative;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    background-color: #e5e9f2;
+    margin-bottom: 0;
+    border-radius: 5px 5px 0 0;
+  }
+  .admin .addAdminBox > div h3 a {
+    color: #1f2d3d;
+  }
+  .admin .addAdminBox > div h3 a i {
+    cursor: pointer;
+    position: absolute;
+    font-size: 20px;
+    right: 8px;
+    top: 20px;
+  }
+  .admin .addAdminBox .addAdminData {
+    margin-top: 15px;
+    padding: 0 10px;
+  }
+  .admin .addAdminBox .addAdminData > div {
+    margin: 15px;
+  }
+  .admin .addAdminBox .addAdminData > div > span {
+    display: inline-block;
+    width: 25%;
+    text-align: right;
+    font-size: 15px;
+    padding-right: 15px;
+  }
+  .admin .addAdminBox .addAdminData > div input {
+    display: inline-block;
+    width: 60%;
+  }
+  .admin .addAdminBox .addAdminData > div .region {
+    width: 60%;
+    display: inline-block;
+  }
+  .admin .addAdminBox .addAdminData > div .region > div {
+    width: 33.3333% !important;
+    margin-left: 0 !important;
+  }
+  .admin .addAdminBox .addAdminData > div .getroleName {
+    width: 60%;
+  }
+  .admin .addAdminBox .addAdminData .adminType span {
+    float: left;
+  }
+  .admin .addAdminBox .addAdminData .adminType .ant-checkbox-group {
+    float: left;
+    width: 60%;
+  }
+  .admin .addAdminBox .addAdminData .adminDataBtn {
+    margin-top: 30px;
+    text-align: center;
+  }
+  .admin .addAdminBox .addAdminData .adminDataBtn button {
+    width: 100px;
+    display: inline-block;
+    margin: 0 25px;
+  }
+  .admin .AdminLis {
+    margin-top: 25px;
+  }
+  .admin .AdminLis .ant-table-wrapper .ant-table {
+    border-right: 1px solid #e8e8e8;
+    border-left: 1px solid #e8e8e8;
+  }
+  .admin .AdminLis .ant-table-wrapper .ant-table td {
+    color: #000;
+  }
+  .admin .AdminLis .ant-table-wrapper .ant-table td button {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .admin .AdminLis .ant-table-wrapper .ant-table td .deleBtn {
+    color: #1fa0ff;
+  }
+  .admin .AdminLis .ant-table-wrapper .ant-table td .deleBtn a {
+    color: #1fa0ff;
+  }
+  .admin .AdminLis .page {
+    margin-top: 20px;
+  }
+  .admin .AdminLis .page span {
+    float: left;
+    line-height: 32px;
+    margin: 0 8px;
+  }
+  .admin .AdminLis .page ul {
+    float: left;
+  }
+  .Role .keyImg > span:nth-child(1) {
+    float: left;
+  }
+  .Role .keyImg img {
+    width: 100%;
+  }
