@@ -1,5 +1,5 @@
 import React,{Component}                        from "react";
-import { Form, Icon, Input, Button}             from 'antd';
+import { Form, Icon, Input, Button,message}             from 'antd';
 import loginImg                                 from "../img/login.png";
 import axios                                    from "axios";
 import cookie                                   from "react-cookies";
@@ -51,14 +51,27 @@ class app extends Component{
                // axios.post("http://172.16.10.16:8086/securitylock/web/admin/Login",values)
                      .then((res)=>{
                          if(res.data.code===1000){
-                                cookie.save("islogin",true);
+                                let arr=[];
+                                let a =[];
+                                let {age,createtime,idAdmin,name,telephone} = res.data.data;
+                                cookie.save("userData",{age:age,createtime:createtime,idAdmin:idAdmin,name:name,telephone:telephone});
+                                 a=res.data.data.adminAuths;
+                                 for(let i =0;i<a.length;i++){
+                                     if(a[i]){
+                                         arr.push(a[i])
+                                     }
+                                 }
+                                sessionStorage.setItem("adminAuths",JSON.stringify(arr));
                                 this.props.login( )
                          }else{
                              this.setState({
                                 loginerr:"账号或密码错误"
                              })
                          }
-                     })   
+                     })
+                     .catch((err)=>{
+                        message.error("网络连接错误，请稍后再试~~")
+                     })
             }else{
               console.log(err)
           }
@@ -81,17 +94,24 @@ class app extends Component{
                         this.Postreset(data,()=>{
                             /**发送后回调 */
                             console.log(data)
+                            this.pagIng( )
                         })
                  }else{
                     console.log(err)   
                  }
             })
       }
+    /**提交忘记密码 */
       Postreset=(data,cb)=>{
-            axios.post(url+"SmartPillow/web/admin/resetAdminPassword",data)
+            axios.get(url+"SmartPillow/web/admin/resetAdminPassword",{params:data})
                  .then((res)=>{
-                            cb&&cb(res)
-                       })
+                     if(res.data.code===1000&&res.data.message==="修改成功"){
+                        message.success(res.data.message)
+                     }else{
+                        message.warning(res.data.message)
+                     }
+                   cb&&cb(res)
+                    })
       }
 
     /**登陆&&忘记密码*/
@@ -102,7 +122,8 @@ class app extends Component{
       }
     /***获取验证码 */
       onCode=()=>{
-            let Time=61;
+          if( /^1[34578]\d{9}$/.test(this.state.user)){
+                 let Time=61;
             this.setState({loading: true})
             let Interval= setInterval(()=>{
                     Time--;
@@ -118,6 +139,9 @@ class app extends Component{
                     }
             },1000)
             this.getCode( )
+          }else{
+                message.error("手机号输入错误，请检查后重新输入！")
+          }
       }
     /**获取验证码 */
       getCode=( )=>{
@@ -125,7 +149,9 @@ class app extends Component{
             axios.get(url+"/SmartPillow//web/admin/sendSmsCode?telephone="+this.state.user)
                  .then((res)=>{
                         if(res.data!==1000){
-                            alert(res.data.message)
+                            message.success(res.data.message)
+                        }else{
+                            message.error(res.data.message)
                         }
                  })
       } 

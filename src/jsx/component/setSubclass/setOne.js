@@ -76,16 +76,18 @@ class Updata extends Component{
             loading:false,
             profit:"",
             authList:[],
+            defa:[],
             idRole:"",
         }
     }
-    componentDidMount(){
+    componentWillMount(){
         this.setState({
             idRole:this.props.emdata.idRole,
             profit:this.props.emdata.profit,
-            authList:this.initAuth( this.props.emdata.authList[0].authName )
+            defa:this.props.emdata.authList[0]?this.initAuth(this.props.emdata.authList[0].authName):[]
         })
     }
+
     onTaxrate=(e)=>{
         this.setState({
             profit:e/100
@@ -112,7 +114,7 @@ class Updata extends Component{
     initAuth( data ){
         let _data="";
          _data=  data.replace(/用户管理/g,1);
-         _data= _data.replace(/角色管理/g,2);
+         _data= _data.replace(/代理商管理/g,2);
          _data= _data.replace(/管理员管理/g,3);
          _data= _data.replace(/设备管理/g,4);
          _data= _data.replace(/订单管理/g,5);
@@ -121,7 +123,8 @@ class Updata extends Component{
          _data= _data.replace(/报修管理/g,8);
          _data= _data.replace(/支付账单/g,9);
          _data= _data.replace(/设置/g,10);
-         return _data.split(",");
+         let array = Array.from(new Set( _data.split(",")));
+         return array;
     }
 
     render(){
@@ -152,7 +155,7 @@ class Updata extends Component{
                                        </div>
                                         <div className={"Auth"}>
                                             <span>权限</span>
-                                            <CheckboxGroup onChange={this.onchange} options={optionsWithDisabled} defaultValue={this.state.authList} />
+                                            <CheckboxGroup onChange={this.onchange} options={optionsWithDisabled} defaultValue={this.state.defa} />
                                         </div>
                                        <div className={"adminDataBtn"} key={10}>
                                             <Button onClick={this.props.showBox}>
@@ -170,7 +173,7 @@ class Updata extends Component{
 }
 const optionsWithDisabled = [
     { value: "1", label: '用户管理'},
-    { value: "2", label: '角色管理'},
+    { value: "2", label: '代理商管理'},
     { value: "3", label: '管理员管理',},
     { value: "4", label: '设备管理',},
     { value: "5", label: '订单管理',},

@@ -69,12 +69,22 @@ export default class App extends Component{
               })
     }
         render(){
-            return(
-                <div className={"set admin"}>
-                        <h3>设置</h3>
-                        <One ByRole={this.state.ByRole} onUpdata={this.updateAdminRole}/>
-                        <Two BaseSet={this.state.BaseSet} enData={this.enData}/>
-                </div>
-            )
+            if(sessionStorage.getItem("adminAuths").indexOf("设置")>-1){
+                return(
+                    <div className={"set admin"}>
+                            <h3>设置</h3>
+                            <One ByRole={this.state.ByRole} onUpdata={this.updateAdminRole}/>
+                            <Two BaseSet={this.state.BaseSet} enData={this.enData}/>
+                    </div>
+                )
+            }else{
+                return(
+                    <div className={"set admin"}>
+                            <h3>设置</h3>
+                            <p>无权限</p>
+                    </div>
+                )
+            }
+            
         }
 }

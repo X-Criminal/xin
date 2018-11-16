@@ -20,9 +20,7 @@ class Demo extends React.Component {
       if(this.props.idHotel){
         formData.append("idHotel",this.props.idHotel)
       }
-      console.log(this.props.idHotel)
       formData.append('file', file);
-      console.log(formData)
     });
 
     this.setState({

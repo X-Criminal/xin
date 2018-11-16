@@ -1,31 +1,31 @@
 import React,{Component}                     from "react";
 import {Route, Switch, Link}                 from 'react-router-dom';
-import Avatar                                from "../../share/Avatar";
-import Region                                from "../../share/region";
-import Dele                                  from "../../share/dele";
-//import HotelDeta                             from "../../hotelSubclass/HotelDetailList"
+import cookie                                from "react-cookies";
+import axios                                 from "axios";
+import Avatar                                from "../share/Avatar";
+import Region                                from "../share/region";
+import Dele                                  from "../share/dele";
+import HotelDeta                             from "./HotelDetailList"
+import {message}                             from "antd";   
 import {Table,Button,Input,Icon,Pagination,InputNumber  } from "antd";
+
 const {Column} =Table;
-let router,inRouter,url,_adminId;
+let inRouter,url;
 export default class App extends Component{
     constructor(props){
         super(props)
         this.state={
-            upData:[],
+            hotelname:"",
+             upData:[],
             idHotel:"",
-            _idHotel:"",
-               _page:1,
+           _idHotel:"",
+              _page:1,
+           HOTEDATA:[],
+              strip:0,
         }
     }
     componentWillMount(){
-        inRouter = this.props.router;
-        router   = inRouter.includes("AgentRole")?"/AgentRole":"/AgentHotel";
-        url      = sessionStorage.getItem("url");
-        if(!inRouter.includes("UpdateAdmin")){
-            _adminId =  JSON.parse(inRouter.replace(/^(\/)(.*)?(\/)/,""));
-        }else{
-            window.history.go(-1)
-        }
+        url = sessionStorage.getItem("url");
     }
     /**保存修改 */
     onUpdateAdmin(data){
@@ -42,7 +42,7 @@ export default class App extends Component{
     }
     /**提交修改数据 */
     enData=(data,cb )=>{
-        data.idAdmin=(+_adminId.idAdmin)
+        data.idAdmin=cookie.load("userData").idAdmin
         this.props.upData(data,()=>{
             cb&&cb()
         })
@@ -50,10 +50,10 @@ export default class App extends Component{
     /**判断删除 */
     DeleBox=(e)=>{
         if(e==="cancel"){
-                window.location.href="/#"+inRouter
+                window.history.back(-1)
         }else if(e==="sure" ){
             this.props.deleData(this.state.adminId,()=>{
-                window.location.href="/#"+inRouter
+                window.history.back(-1)
             })
         }
     }
@@ -62,29 +62,66 @@ export default class App extends Component{
         this.props.emtPage(e)
     }
     /**查看详情 */
-    // getHotelDetailList=( data )=>{
-    //     this.setState({
-    //         _idHotel:data
-    //     })
-    //     this._init({idHotel:data+""})
-    // }
-    // _init=( data )=>{
-    //     let _data={
-    //        if(data){
-    //         for(let k in data){
-    //             _data[k]=data[k]
-    //         }
-    //     }
-    //     axios.post(url+"/SmartPillow/web/roomdetails/getHotelDetailList",_data)
-    //      idHotel:this.state._idHotel,
-    //         numberPage:8,
-    //         page:this.state._page
-    //     }
-    //          .then((res)=>{
-    //              console.log(res)
-    //          })
-    // }
-
+    getHotelDetailList=( data ,hotelname)=>{
+        this.setState({
+            _idHotel:data,
+            hotelname:hotelname
+        })
+        this._init({idHotel:data})
+    }
+    /**详细列表 */
+    _init=( data )=>{
+        let _data={
+            idHotel:this.state._idHotel,
+            numberPage:8,
+            page:this.state._page
+        }
+        if(data){
+            for(let k in data){
+                _data[k]=data[k]
+            }
+        }
+        axios.post(url+"/SmartPillow/web/roomdetails/getHotelDetailList",_data)
+             .then((res)=>{
+                 if(res.data.code===1000){
+                        this.setState({
+                            HOTEDATA:res.data.data.hotels,
+                               strip:res.data.data.strip
+                        })
+                 }else{
+                        this.setState({
+                            HOTEDATA:[],
+                            strip:0,
+                            _page:1,
+                        })
+                 }
+             })
+    }
+    /**详细列表翻页 */
+    onHotepage=(data)=>{
+        this.setState({
+            _page:data
+        })
+        this._init({page:data})
+    }
+    /**详情删除 */
+    _deleData=(data)=>{
+        axios.get(url+"/SmartPillow/web/roomdetails/deleteHotelDeteil?idRoom="+data)
+             .then((res)=>{
+                    if(res.data.code===1000){
+                        this.init()
+                        message.success("操作成功！")
+                    }else{
+                        message.error("操作失败！")
+                    }
+                    window.history.back(-1)
+             })
+             .catch((err)=>{
+                    message.error("网络错误请稍后再试~~~~~")
+                    window.history.back(-1)
+                })
+             
+    }
     render(){
         return(
             <div className={"AdminLis"}>
@@ -142,13 +179,18 @@ export default class App extends Component{
                         render={(text) => {
                             return(
                                 <div>
+                                    <Button onClick={this.getHotelDetailList.bind(this,text.idHotel,text.hotelname)}>
+                                        <Link to={"/hotel/HoteData"}>
+                                            详情
+                                        </Link>
+                                    </Button>
                                     <Button onClick={this.onUpdateAdmin.bind(this,text)}>
-                                        <Link to={router+"/UpdateAdmin"}>
+                                        <Link to={"/hotel/UpdateAdmin"}>
                                             编辑
                                         </Link>
                                     </Button>
                                     <Button onClick={this.onDeleteAdmin.bind(this,text.idHotel)} className={"deleBtn"}>
-                                        <Link to={router+"/DeleteAdmin"} >
+                                        <Link to={"/hotel/DeleteAdmin"} >
                                             删除
                                         </Link>
                                     </Button>
@@ -162,8 +204,16 @@ export default class App extends Component{
                         <Pagination defaultCurrent={1} total={this.props.strip} defaultPageSize={8} onChange={this.onPage}/>
                     </div>
                     <Switch>
-                        <Route path={router+"/UpdateAdmin"} render={()=> <UpdateAdmin upData={this.state.upData} enData={this.enData} inRouter={inRouter}/>}/>
-                        <Route path={router+"/DeleteAdmin"} render={()=> <Dele DeleBox={this.DeleBox}/>}/>
+                        <Route path={"/hotel/HoteData"} render={()=>    <HotelDeta
+                                                                             url="SmartPillow/web/roomdetails/importRoomDetails"
+                                                                             deleData={this._deleData} 
+                                                                             onHotepage={this.onHotepage} 
+                                                                             idHotel={this.state._idHotel} 
+                                                                             hotelname={this.state.hotelname} 
+                                                                             HOTEDATA={this.state.HOTEDATA} 
+                                                                             strip={this.state.strip}/>}/>
+                        <Route path={"/hotel/UpdateAdmin"} render={()=> <UpdateAdmin upData={this.state.upData} enData={this.enData} inRouter={inRouter}/>}/>
+                        <Route path={"/hotel/DeleteAdmin"} render={()=> <Dele DeleBox={this.DeleBox}/>}/>
                     </Switch>
             </div>
         )
@@ -240,7 +290,7 @@ class UpdateAdmin extends Component{
             this.setState({
                 loading:false
             })
-            window.location.href=`/#${this.props.inRouter}`
+            window.history.back(-1)
         })
     }
 
@@ -249,7 +299,7 @@ class UpdateAdmin extends Component{
             return(
                 <div className={"addAdminBox"}>
                 <div>
-                      <h3>编辑管理员 <Link to={this.props.inRouter}><Icon type={"close"}/></Link></h3>
+                      <h3>编辑管理员 <Link to={"/hotel"}><Icon type={"close"}/></Link></h3>
                       <div className={"addAdminData"}>
                            <div key={1}>
                                <span>
@@ -295,7 +345,7 @@ class UpdateAdmin extends Component{
                            </div> 
                            <div className={"adminDataBtn"} key={10}>
                                 <Button>
-                                    <Link to={this.props.inRouter}>
+                                    <Link to={"/hotel"}>
                                         取消
                                     </Link>
                                 </Button>

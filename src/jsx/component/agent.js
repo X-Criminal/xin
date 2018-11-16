@@ -99,12 +99,21 @@ export default class App extends Component{
     }
 
         render(){
-            return(
-                <div className={"agent admin"}>
-                        <h3>代理商管理</h3>
-                        <Search addAdmin={this.addAdmin} onSearch={this.onSearch}/>
-                        <AgentLis strip={this.state.strip} admins={this.state.admins} upData={this.upData} deleData={this.deleData} emtPage={this.emtPage}/>
-                </div>
-            )
+            if(sessionStorage.getItem("adminAuths").indexOf("代理商管理")>-1){
+                return(
+                    <div className={"agent admin"}>
+                            <h3>代理商管理</h3>
+                            <Search addAdmin={this.addAdmin} onSearch={this.onSearch}/>
+                            <AgentLis strip={this.state.strip} admins={this.state.admins} upData={this.upData} deleData={this.deleData} emtPage={this.emtPage}/>
+                    </div>
+                )
+            }else{
+                return(
+                    <div className={"agent admin"}>
+                            <h3>代理商管理</h3>
+                            <p>无权限</p>
+                    </div>
+                )
+            }
         }
 }
