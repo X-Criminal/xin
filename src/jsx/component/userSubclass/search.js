@@ -15,7 +15,7 @@ export default class App extends Component{
             loading:true,
         })
         let data ={
-             keywords:this.state.keywords
+            condition:this.state.keywords
         }
         this.props.onSearch(data,(res)=>{
                 this.setState({
@@ -35,7 +35,7 @@ export default class App extends Component{
                     <span>
                         搜索
                     </span>
-                    <Input className={"keyWord"} onChange={this.getKeyWord} placeholder={this.props.placeholder?this.props.placeholder:"输入关键字搜索"}/>
+                    <Input className={"keyWord"} onChange={this.getKeyWord} placeholder={this.props.placeholder?this.props.placeholder:"搜索条件(手机号或姓名)"}/>
                     <Button className={"Adminbtn"} type="primary" loading={this.state.loading} onClick={this.search}>
                         查询
                     </Button>

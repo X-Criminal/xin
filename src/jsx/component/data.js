@@ -1,13 +1,14 @@
-import React ,{Component}           from "react";
-import Search                       from "./userSubclass/search";
+import React ,{Component}                   from "react";
+import Search                               from "./userSubclass/search";
 import { Radio ,DatePicker,Icon,message }   from 'antd';
-import axios                        from "axios"
+import axios                                from "axios"
 import moment from 'moment';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import 'moment/locale/zh-cn';
 
 import echarts from "echarts"
 import "../../css/DataStyle.css"
+import cookie from "react-cookies";
 let upData = false,myChart,url;
 
 const dateFormat = 'YYYY/MM/DD';
@@ -80,6 +81,7 @@ export default class App extends Component{
     /**初始化 */
     init( data,cb ){
         let _data={
+            adminId:cookie.load("userData").admintype===2?cookie.load("userData").idAdmin:"",
             startTime:this.state.getDay,
              keywords:this.state.keywords,
                  type:this.state.typeData
@@ -115,7 +117,7 @@ export default class App extends Component{
                         <h3>
                             营销报表
                         </h3>    
-                        <Search onSearch={this.onSearch} placeholder={"输入酒店，代理商名称"}/>
+                        <Search onSearch={this.onSearch} placeholder={"搜索关键字(酒店名称)"}/>
                         <div className={"Datanav"}>
                             <Radio.Group buttonStyle="solid" onChange={this.onDateType} defaultValue={this.state.typeData}>
                                 <Radio.Button value={1}>周</Radio.Button>

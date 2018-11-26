@@ -23,7 +23,7 @@ export default class App extends Component{
         let _data={
             numberPage:8,
             page:this.state.page,
-            keywords:this.state.keywords,
+            condition:this.state.keywords,
         }
         if(data){
             for(let k in data){

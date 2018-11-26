@@ -30,8 +30,9 @@ export default class App extends Component{
         let _data={
                keywords:this.state.keywords,
               // condition:this.state.condition,
+              adtype:cookie.load("userData").admintype,
               idAdmin:admin.idAdmin,
-             numberPage:8,
+             numberPage:6,
                    page:this.state.page,
         }
         if(data){
@@ -85,7 +86,7 @@ export default class App extends Component{
    }
    /**添加*/
    addAdmin=(data,cb)=>{
-    axios.post(url+"SmartPillow/web/hotel/addHot",data)
+    axios.post(url+"SmartPillow/web/hotel/addHotel",data)
          .then((res)=>{
              if(res.data.code===1000){
                  this.init( )
@@ -127,7 +128,7 @@ export default class App extends Component{
                     <Search
                          postData={<AddHotel addAdmin={this.addAdmin} AllAdminName={this.state.AllAdminName}/>}
                          onSearch={this.onSearch}
-                         placeholder={"输入账号，姓名搜索"}/>
+                         placeholder={"酒店名称或酒店编号"}/>
                     <RoleLis  upData={this.upData} strip={this.state.strip} admins={this.state.admins} deleData={this.deleData} emtPage={this.emtPage} router={this.props.match.url} params={this.state.TypeAndId}/>
                 </div>
             )

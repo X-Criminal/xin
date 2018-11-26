@@ -15,7 +15,7 @@ class App extends Component {
     }
   }
   componentWillMount(){
-    sessionStorage.setItem("url","https://www.znx158.com/");
+    sessionStorage.setItem("url","https://api.znx158.com/");
       if(cookie.load("userData")){
         this.setState({
           islogin:true,

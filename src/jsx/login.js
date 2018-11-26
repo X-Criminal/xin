@@ -53,8 +53,8 @@ class app extends Component{
                          if(res.data.code===1000){
                                 let arr=[];
                                 let a =[];
-                                let {age,createtime,idAdmin,name,telephone} = res.data.data;
-                                cookie.save("userData",{age:age,createtime:createtime,idAdmin:idAdmin,name:name,telephone:telephone});
+                                let {age,createtime,idAdmin,name,telephone,admintype} = res.data.data;
+                                cookie.save("userData",{age:age,createtime:createtime,idAdmin:idAdmin,name:name,telephone:telephone,admintype:admintype});
                                  a=res.data.data.adminAuths;
                                  for(let i =0;i<a.length;i++){
                                      if(a[i]){

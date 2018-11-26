@@ -201,7 +201,7 @@ export default class App extends Component{
                 </Table>
                     <div  className={"page"}>
                         <span>共{this.props.strip}条</span>
-                        <Pagination defaultCurrent={1} total={this.props.strip} defaultPageSize={8} onChange={this.onPage}/>
+                        <Pagination defaultCurrent={1} total={this.props.strip} defaultPageSize={6} onChange={this.onPage}/>
                     </div>
                     <Switch>
                         <Route path={"/hotel/HoteData"} render={()=>    <HotelDeta
